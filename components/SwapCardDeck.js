@@ -6,23 +6,15 @@ import { useParticleBurst } from './ParticleBurst';
 
 const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
-export default function SwapCardDeck({ cards }) {
+export default function SwapCardDeck({ cards, onOpenLetter }) {
   const [cardOrder, setCardOrder] = useState(cards.map((c, i) => ({ ...c, id: i })));
-  const [selectedId, setSelectedId] = useState(null);
   const { trigger, BurstLayer } = useParticleBurst();
 
-  const handleCardClick = (id, e) => {
+  const handleCardClick = (card, e) => {
     trigger(e);
-    if (selectedId === null)  { setSelectedId(id); return; }
-    if (selectedId === id)    { setSelectedId(null); return; }
-    setCardOrder((prev) => {
-      const next = [...prev];
-      const a = next.findIndex((c) => c.id === selectedId);
-      const b = next.findIndex((c) => c.id === id);
-      [next[a], next[b]] = [next[b], next[a]];
-      return next;
-    });
-    setSelectedId(null);
+    if (onOpenLetter) {
+      onOpenLetter(card);
+    }
   };
 
   return (
@@ -40,7 +32,7 @@ export default function SwapCardDeck({ cards }) {
           Swap Your Feelings
         </h2>
         <p className="mx-auto max-w-2xl text-rose-200/45 text-sm sm:text-base">
-          Click two cards to swap their order. Har swap mein thoda sa magic hai.
+          Click a card to read the full letter. Khul kar aa jayega dil ki baat.
         </p>
       </motion.div>
 
@@ -51,18 +43,14 @@ export default function SwapCardDeck({ cards }) {
             key={card.id}
             layout
             type="button"
-            onClick={(e) => handleCardClick(card.id, e)}
+            onClick={(e) => handleCardClick(card, e)}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             whileHover={{ y: -8, scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 250, damping: 22, delay: i * 0.07 }}
-            className={`relative overflow-hidden rounded-[28px] p-6 sm:p-7 text-left transition-colors duration-300 ${
-              selectedId === card.id
-                ? 'border border-rose-400/70 bg-rose-950/45 card-selected-glow'
-                : 'border border-white/[0.07] bg-white/[0.03] hover:border-rose-400/25 hover:bg-white/[0.055]'
-            }`}
+            className="relative overflow-hidden rounded-[28px] p-6 sm:p-7 text-left transition-colors duration-300 border border-white/[0.07] bg-white/[0.03] hover:border-rose-400/25 hover:bg-white/[0.055]"
           >
             {/* Top highlight glow */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.13),_transparent_65%)]" />
@@ -75,37 +63,23 @@ export default function SwapCardDeck({ cards }) {
                 <span className="text-xs font-semibold text-rose-300/35">#{card.id + 1}</span>
               </div>
               <h3 className="mb-3 font-playfair text-xl font-semibold italic text-fuchsia-50">{card.title}</h3>
-              <p className="text-rose-200/55 leading-7 text-sm">{card.text}</p>
+              <p className="text-rose-200/55 leading-7 text-sm line-clamp-3">{card.text}</p>
             </div>
 
             <motion.div
-              animate={selectedId === card.id ? { opacity: [0.8, 1, 0.8] } : { opacity: 1 }}
+              animate={{ opacity: [0.8, 1, 0.8] }}
               transition={{ duration: 1.0, repeat: Infinity }}
-              className={`absolute bottom-4 right-4 rounded-full border px-3 py-1 text-xs font-semibold ${
-                selectedId === card.id
-                  ? 'border-rose-400/55 bg-rose-500/20 text-rose-300'
-                  : 'border-white/10 bg-white/[0.05] text-rose-300/45'
-              }`}
+              className="absolute bottom-4 right-4 rounded-full border border-rose-400/55 bg-rose-500/20 px-3 py-1 text-xs font-semibold text-rose-300"
             >
-              {selectedId === card.id ? '✦ Selected' : 'Tap to swap'}
+              Click to read ✦
             </motion.div>
           </motion.button>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-rose-200/30">Select one card, then another to swap.</p>
-        <motion.button
-          type="button"
-          onClick={(e) => { trigger(e); setCardOrder((p) => shuffleArray(p)); setSelectedId(null); }}
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.96 }}
-          transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-          className="btn-glow inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold text-white tracking-widest uppercase"
-        >
-          Shuffle Cards ✦
-        </motion.button>
+      <div className="mt-8 text-center">
+        <p className="text-xs text-rose-200/30">Click on any card to read the full letter 💌</p>
       </div>
       {BurstLayer}
     </div>

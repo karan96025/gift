@@ -8,6 +8,7 @@ import HeartsBackground from '../components/HeartsBackground';
 import ScannerPanel from '../components/ScannerPanel';
 import CursorSparkle from '../components/CursorSparkle';
 import ScrollProgress from '../components/ScrollProgress';
+import LetterModal from '../components/LetterModal';
 import { useParticleBurst } from '../components/ParticleBurst';
 const cards = [
   { 
@@ -29,6 +30,10 @@ const cards = [
   { 
     title: 'Only You',                   
     text: 'Duniya me hazaar log honge… par meri nazar sirf tujh pe hi rukti hai 💖' 
+  },
+  { 
+    title: 'My Everything',                   
+    text: 'Sumaa… tu sirf meri zindagi ka hissa nahi, meri poori duniya hai.\n\nTeri ek chhoti si muskaan bhi mere din ko roshan kar deti hai, aur tera dukh mujhe andar tak hila deta hai.\n\nTu kabhi akeli nahi hai bettu… main har pal tere saath hoon — kabhi ek dost banke, kabhi ek sahara banke, aur kabhi bas ek chup si parchhai banke jo hamesha tere paas khadi rehti hai.\n\nTu bas ek baar dil se yaad karke dekh… main wahi milunga ❤️\n\nTere bina sab kuch adhoora sa lagta hai… jaise zindagi me rang hi na ho.\n\nAur jab tu saath hoti hai na… to har pal ek khoobsurat yaad ban jaata hai, ek aisa ehsaas jo lafzon me poora kabhi aa hi nahi sakta.\n\nMain shayad perfect na hoon… par ek baat pakki hai — main tujhe hamesha dil se, sach me, aur bina kisi shart ke pyaar karta rahunga.\n\nI love you endlessly, meri jaan ❤️' 
   },
 ];
 
@@ -61,6 +66,7 @@ function SectionDivider() {
 export default function HomePage() {
   const [scanState, setScanState] = useState('idle');
   const [isMusicOn, setIsMusicOn] = useState(false);
+  const [selectedLetter, setSelectedLetter] = useState(null);
   const audioSrc = '/Christina_Perri_-_A_Thousand_Years_CeeNaija.com_.mp3';
   const { trigger, BurstLayer } = useParticleBurst();
 
@@ -190,7 +196,7 @@ export default function HomePage() {
       {/* ── CARDS ── */}
       <section id="cards" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-10" style={{ zIndex: 10 }}>
         <div className="mx-auto max-w-6xl">
-          <SwapCardDeck cards={cards} />
+          <SwapCardDeck cards={cards} onOpenLetter={setSelectedLetter} />
         </div>
       </section>
 
@@ -258,10 +264,28 @@ export default function HomePage() {
             ❤️
           </motion.div>
           <p className="font-playfair text-xl font-semibold italic leading-relaxed text-rose-100/90 sm:text-2xl lg:text-3xl">
-            Aap jitni pyari ho, meri duniya utni hi roshan hai. Har pal aapke liye special hi rahega.
+Sumaa… tu sirf meri zindagi ka hissa nahi, meri poori duniya hai.
+Teri ek chhoti si muskaan bhi mere din ko roshan kar deti hai, aur tera dukh mujhe andar tak hila deta hai.
+
+Tu kabhi akeli nahi hai bettu… main har pal tere saath hoon — kabhi ek dost banke, kabhi ek sahara banke, aur kabhi bas ek chup si parchhai banke jo hamesha tere paas khadi rehti hai.
+Tu bas ek baar dil se yaad karke dekh… main wahi milunga ❤️
+
+Tere bina sab kuch adhoora sa lagta hai… jaise zindagi me rang hi na ho.
+Aur jab tu saath hoti hai na… to har pal ek khoobsurat yaad ban jaata hai, ek aisa ehsaas jo lafzon me poora kabhi aa hi nahi sakta.
+
+Main shayad perfect na hoon… par ek baat pakki hai —
+main tujhe hamesha dil se, sach me, aur bina kisi shart ke pyaar karta rahunga.
+
+I love you endlessly, meri jaan ❤️
           </p>
         </motion.div>
       </section>
+
+      <LetterModal 
+        letter={selectedLetter} 
+        isOpen={selectedLetter !== null} 
+        onClose={() => setSelectedLetter(null)} 
+      />
     </main>
   );
 }
