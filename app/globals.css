@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0c0812; }
+::-webkit-scrollbar-thumb { background: rgba(244, 114, 182, 0.28); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(244, 114, 182, 0.5); }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: #0c0812;
+  color: #fdf4ff;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+* { box-sizing: border-box; }
+
+button, input, textarea, select { font: inherit; }
+
+::selection {
+  background: rgba(244, 114, 182, 0.3);
+  color: #fff8fb;
+}
+
+/* ── Shimmer text ── */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f9a8d4 0%,
+    #fde68a 28%,
+    #fdf4ff 50%,
+    #fde68a 72%,
+    #f9a8d4 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(244, 114, 182, 0.13);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── Star twinkle ── */
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(253, 244, 255, 0.9);
+  pointer-events: none;
+  animation: twinkle ease-in-out infinite;
+}
+
+/* ── Static floating symbol ── */
+.heart-float {
+  position: absolute;
+  pointer-events: none;
+  animation: heartFloat ease-in-out infinite;
+}
+
+/* ── Rising particles ── */
+.heart-rise {
+  position: absolute;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: heartRise linear infinite;
+}
+
+/* ── Scan line ── */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(244, 114, 182, 0.9) 35%,
+    rgba(253, 244, 255, 1) 50%,
+    rgba(244, 114, 182, 0.9) 65%,
+    transparent 100%
+  );
+  box-shadow: 0 0 14px 3px rgba(244, 114, 182, 0.65), 0 0 32px 8px rgba(244, 114, 182, 0.22);
+  animation: scanLine 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ── Glow button ── */
+.btn-glow {
+  position: relative;
+  background: linear-gradient(135deg, #be185d 0%, #9d174d 100%);
+  box-shadow: 0 0 22px rgba(244, 114, 182, 0.4), 0 4px 18px rgba(0, 0, 0, 0.35);
+  transition: box-shadow 0.3s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 40px rgba(244, 114, 182, 0.65), 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Memory image ── */
+.memory-image {
+  min-height: 14rem;
+}
+
+/* ── Cursor sparkle ── */
+@keyframes sparkle-fade {
+  0%   { transform: translate(-50%, -50%) scale(1);     opacity: 0.9; }
+  100% { transform: translate(-50%, -70%) scale(0.05);  opacity: 0;   }
+}
+
+/* ── Pulsing rings on CTA button ── */
+.pulse-ring { position: relative; overflow: visible; }
+.pulse-ring::before,
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(244, 114, 182, 0.5);
+  animation: ring-expand 2.4s ease-out infinite;
+  pointer-events: none;
+}
+.pulse-ring::after { animation-delay: 1.2s; }
+@keyframes ring-expand {
+  0%   { transform: scale(1);    opacity: 0.65; }
+  100% { transform: scale(1.65); opacity: 0;    }
+}
+
+/* ── Animated section divider ── */
+.divider-shine {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(244,114,182,0.2) 25%,
+    rgba(253,230,138,0.38) 50%,
+    rgba(244,114,182,0.2) 75%,
+    transparent 100%);
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Selected card glow pulse ── */
+.card-selected-glow {
+  animation: card-glow 1.3s ease-in-out infinite;
+}
+@keyframes card-glow {
+  0%, 100% { box-shadow: 0 0 28px rgba(244,114,182,0.3);  }
+  50%       { box-shadow: 0 0 55px rgba(244,114,182,0.65); }
+}
